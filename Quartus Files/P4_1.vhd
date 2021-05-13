@@ -17,9 +17,14 @@ ENTITY P4_1 IS
 		);
 END P4_1;
 ARCHITECTURE practica of P4_1 IS
+	TYPE state_t IS (s0, v1, v2, w1, w2, waiting, unlocked);
+	SIGNAL state, next_state IS: 
 	SIGNAL VALID_INPUT, Q0, Q1: STD_LOGIC;
-	SIGNAL counter: INTEGER IN RANGE 0 TO 9;
+	SIGNAL timer: INTEGER IN RANGE 0 TO 9;
 	SIGNAL EoC: STD_LOGIC;
+	SIGNAL Enable_timer: STD_LOGIC;
+	SIGNAL Enable_sec: STD_LOGIC;
+	SIGNAL sec_aux: STD_LOGIC_VECTOR(2 DOWNTO 0);
 BEGIN 
 	--Edge detector Description	
 	PROCESS (clk, reset)
@@ -33,44 +38,135 @@ BEGIN
 		END IF;
 	END PROCESS;
 
-	-- Counter for 10 clock cycles
+	-- timer for 10 clock cycles
 	PROCESS(clk, reset)
 	BEGIN
 		IF reset = '1' THEN			--High profile reset
-			VALID_INPUT <= '0';
+			Enable_timer <= '0';
 		ELSIF CLK'EVENT AND CLK='1' THEN
 			-- It always goes up
-			IF counter = 9 THEN
-				counter <= 0;
+			IF timer = 9 THEN
+				timer <= 0;
 				EoC <= '1';
 			ELSE
-				counter <= counter + 1;
+				timer <= timer + 1;
 				EoC <= '0';
 		END IF;
 	END PROCESS;
 
-	
+	--Moore Machine (Based on state transition graph)
+	PROCESS(clk, reset)
+	BEGIN
+	IF reset = '1' THEN
+		state <= s0;
+	ELSIF CLK'EVENT AND CLK='1' THEN
+		state <= next_state;
+	END PROCESS;
+
+	PROCESS(state, data, VALID_INPUT, EoC, lock)
+	BEGIN
+	CASE STATE IS
+		WHEN s0 =>
+			Enable_sec <= '0';
+			Enable_timer <= '0'; 
+			
+			IF data = "0010" AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The first digit is correct
+				next_state <= v1;
+			ELSIF data /= "0010" AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The first digit is incorrect
+				next_state <= w1;
+			ELSE
+				next_state <= s0;
+			END IF;
+		WHEN v1 => 
+			Enable_sec <= '1';
+			Enable_timer <= '0'; 
+
+			IF data = "1001" AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The second digit is correct
+				next_state <= v2;
+			ELSIF (data /= "1001" OR data /= "1111") AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The second digit is incorrect
+				next_state <= w2;
+			ELSE
+				next_state <= v1;
+			END IF;
+		WHEN v2 =>
+			Enable_sec <= '1';
+			Enable_timer <= '0'; 
+
+			IF data = "1000" AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The third digit is correct
+				next_state <= unlocked;
+			ELSIF (data /= "1000" OR data /= "1111") AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The third digit is incorrect
+				next_state <= waiting; 
+			ELSE
+				next_state <= v2;
+			END IF;
+		WHEN w1 => 
+		 	Enable_sec <= '0';
+			Enable_timer <= '0'; 
+
+			IF data /= "1111" AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The second digit is incorrect
+				next_state <= w2;
+			ELSE
+				next_state <= w1;
+			END IF;
+		WHEN w2 =>
+			Enable_sec <= '0';
+			Enable_timer <= '0';
+
+			IF data /= "1111" AND VALID_INPUT = '1' AND EoC = '0' THEN
+				-- The third digit is incorrect
+				next_state <= waiting;
+			ELSE
+				next_state <= w2;
+			END IF;
+		WHEN waiting =>
+			-- Waiting for 10 cycles of clock
+			Enable_sec <= '0';
+			Enable_timer <= '1';
+			
+			IF EoC = '1' THEN
+				next_state <= s0;
+			ELSE
+				next_state <= waiting;
+			END IF;
+			
+		WHEN unlocked =>
+			-- Waiting for close signal
+			Enable_sec <= '0';
+			Enable_timer <= '0';
+
+			IF data = "1111" AND EoC = '0' THEN
+				next_state <= s0;
+			ELSE
+				next_state <= unlocked;
+			END IF;
+		END CASE;
+	END PROCESS;
+
+
+	--Shift register
+	PROCESS(clk, reset)
+	BEGIN
+		IF reset = '1' THEN
+			sec_aux <= "000";
+		ELSIF CLK'EVENT AND CLK='1' THEN
+			IF sec_aux = '111' THEN
+				unlock <= '1';
+			ELSE
+				unlock = '0';
+				IF Enable_sec = '1' THEN
+					sec_aux = Enable_sec & sec_aux(2 DOWNTO 1);
+				ELSE
+					--Append 0 to the sequence
+					sec_aux = Enable_sec & sec_aux(2 DOWNTO 1);	
+				END IF;
+			END IF;
+	END PROCESS;
+	sequence <= sec_aux;		
 END practica;
-
--- SIGNAL Cuenta: UNSIGNED (3 downto 0); 
--- BEGIN
--- 	PROCESS (CLK,RESET)
--- 	BEGIN
--- 			IF RESET ='1' THEN
--- 			Cuenta<=(others => '0');
--- 			ELSIF (CLK'event) and (CLK='1') THEN
--- 				IF CE='1' THEN
--- 					IF UP_DOWN='0' THEN
--- 					Cuenta<= Cuenta+1;
--- 					ELSE
--- 					Cuenta<= Cuenta-1;
--- 					END IF;
--- 				END IF;
-		
--- 			END IF;
--- 	END PROCESS;
--- Q<= Cuenta;
--- Carry_out <= '1' WHEN (Cuenta="1111" AND UP_DOWN='0') OR (Cuenta="0000" AND UP_DOWN='1') 
--- ELSE '0';
-
-end practica;
