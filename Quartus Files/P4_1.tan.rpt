@@ -1,5 +1,5 @@
 Classic Timing Analyzer report for P4_1
-Thu May 13 12:33:03 2021
+Thu May 13 18:21:48 2021
 Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
 
 
@@ -11,12 +11,11 @@ Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
   3. Timing Analyzer Settings
   4. Clock Settings Summary
   5. Parallel Compilation
-  6. Clock Setup: 'CLK'
+  6. Clock Setup: 'clk'
   7. tsu
   8. tco
-  9. tpd
- 10. th
- 11. Timing Analyzer Messages
+  9. th
+ 10. Timing Analyzer Messages
 
 
 
@@ -39,18 +38,17 @@ applicable agreement for further details.
 
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Timing Analyzer Summary                                                                                                                                                                               ;
-+------------------------------+-------+---------------+-----------------------------------+----------------------------------+----------------------------------+------------+----------+--------------+
-; Type                         ; Slack ; Required Time ; Actual Time                       ; From                             ; To                               ; From Clock ; To Clock ; Failed Paths ;
-+------------------------------+-------+---------------+-----------------------------------+----------------------------------+----------------------------------+------------+----------+--------------+
-; Worst-case tsu               ; N/A   ; None          ; 7.000 ns                          ; CE                               ; lpm_counter:Cuenta_rtl_0|dffs[3] ; --         ; CLK      ; 0            ;
-; Worst-case tco               ; N/A   ; None          ; 13.000 ns                         ; lpm_counter:Cuenta_rtl_0|dffs[3] ; Carry_out                        ; CLK        ; --       ; 0            ;
-; Worst-case tpd               ; N/A   ; None          ; 10.000 ns                         ; UP_DOWN                          ; Carry_out                        ; --         ; --       ; 0            ;
-; Worst-case th                ; N/A   ; None          ; -2.000 ns                         ; CE                               ; lpm_counter:Cuenta_rtl_0|dffs[3] ; --         ; CLK      ; 0            ;
-; Clock Setup: 'CLK'           ; N/A   ; None          ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[3] ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK        ; CLK      ; 0            ;
-; Total number of failed paths ;       ;               ;                                   ;                                  ;                                  ;            ;          ; 0            ;
-+------------------------------+-------+---------------+-----------------------------------+----------------------------------+----------------------------------+------------+----------+--------------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Timing Analyzer Summary                                                                                                                                          ;
++------------------------------+-------+---------------+----------------------------------+-------------+-------------------+------------+----------+--------------+
+; Type                         ; Slack ; Required Time ; Actual Time                      ; From        ; To                ; From Clock ; To Clock ; Failed Paths ;
++------------------------------+-------+---------------+----------------------------------+-------------+-------------------+------------+----------+--------------+
+; Worst-case tsu               ; N/A   ; None          ; 7.800 ns                         ; data[0]     ; state.state_bit_2 ; --         ; clk      ; 0            ;
+; Worst-case tco               ; N/A   ; None          ; 5.000 ns                         ; sec_aux[1]  ; sequence[1]       ; clk        ; --       ; 0            ;
+; Worst-case th                ; N/A   ; None          ; -2.000 ns                        ; valid       ; Q0                ; --         ; clk      ; 0            ;
+; Clock Setup: 'clk'           ; N/A   ; None          ; 92.59 MHz ( period = 10.800 ns ) ; VALID_INPUT ; state.state_bit_2 ; clk        ; clk      ; 0            ;
+; Total number of failed paths ;       ;               ;                                  ;             ;                   ;            ;          ; 0            ;
++------------------------------+-------+---------------+----------------------------------+-------------+-------------------+------------+----------+--------------+
 
 
 +-----------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -92,7 +90,7 @@ applicable agreement for further details.
 +-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
 ; Clock Node Name ; Clock Setting Name ; Type     ; Fmax Requirement ; Early Latency ; Late Latency ; Based on ; Multiply Base Fmax by ; Divide Base Fmax by ; Offset ; Phase offset ;
 +-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
-; CLK             ;                    ; User Pin ; None             ; 0.000 ns      ; 0.000 ns     ; --       ; N/A                   ; N/A                 ; N/A    ;              ;
+; clk             ;                    ; User Pin ; None             ; 0.000 ns      ; 0.000 ns     ; --       ; N/A                   ; N/A                 ; N/A    ;              ;
 +-----------------+--------------------+----------+------------------+---------------+--------------+----------+-----------------------+---------------------+--------+--------------+
 
 
@@ -107,77 +105,132 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Clock Setup: 'CLK'                                                                                                                                                                                                          ;
-+-------+-----------------------------------+----------------------------------+----------------------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
-; Slack ; Actual fmax (period)              ; From                             ; To                               ; From Clock ; To Clock ; Required Setup Relationship ; Required Longest P2P Time ; Actual Longest P2P Time ;
-+-------+-----------------------------------+----------------------------------+----------------------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[0] ; lpm_counter:Cuenta_rtl_0|dffs[0] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[0] ; lpm_counter:Cuenta_rtl_0|dffs[1] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[1] ; lpm_counter:Cuenta_rtl_0|dffs[1] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[0] ; lpm_counter:Cuenta_rtl_0|dffs[2] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[1] ; lpm_counter:Cuenta_rtl_0|dffs[2] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[2] ; lpm_counter:Cuenta_rtl_0|dffs[2] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[0] ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[1] ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[2] ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; lpm_counter:Cuenta_rtl_0|dffs[3] ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK        ; CLK      ; None                        ; None                      ; 6.000 ns                ;
-+-------+-----------------------------------+----------------------------------+----------------------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Clock Setup: 'clk'                                                                                                                                                                            ;
++-------+-----------------------------------+-------------------+-------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
+; Slack ; Actual fmax (period)              ; From              ; To                ; From Clock ; To Clock ; Required Setup Relationship ; Required Longest P2P Time ; Actual Longest P2P Time ;
++-------+-----------------------------------+-------------------+-------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_1 ; state.state_bit_1 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_0 ; state.state_bit_1 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; EoC               ; state.state_bit_1 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_2 ; state.state_bit_1 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; VALID_INPUT       ; state.state_bit_1 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_1 ; state.state_bit_0 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_0 ; state.state_bit_0 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_2 ; state.state_bit_0 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_1 ; state.state_bit_2 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_0 ; state.state_bit_2 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; EoC               ; state.state_bit_2 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; state.state_bit_2 ; state.state_bit_2 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 92.59 MHz ( period = 10.800 ns )  ; VALID_INPUT       ; state.state_bit_2 ; clk        ; clk      ; None                        ; None                      ; 6.800 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[2]        ; sec_aux[1]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[1]        ; sec_aux[2]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[2]        ; sec_aux[2]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[0]        ; sec_aux[2]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_1 ; sec_aux[2]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_0 ; sec_aux[2]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_2 ; sec_aux[2]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[1]        ; sec_aux[0]        ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; EoC               ; state.state_bit_0 ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; VALID_INPUT       ; state.state_bit_0 ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_1 ; EoC               ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_0 ; EoC               ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[3]          ; EoC               ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[2]          ; EoC               ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[1]          ; EoC               ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[0]          ; EoC               ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_2 ; EoC               ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_1 ; timer[3]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_0 ; timer[3]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[3]          ; timer[3]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[2]          ; timer[3]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[1]          ; timer[3]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[0]          ; timer[3]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_2 ; timer[3]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_1 ; timer[2]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_0 ; timer[2]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[2]          ; timer[2]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[1]          ; timer[2]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[0]          ; timer[2]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_2 ; timer[2]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_1 ; timer[1]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_0 ; timer[1]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[3]          ; timer[1]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[2]          ; timer[1]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[1]          ; timer[1]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[0]          ; timer[1]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_2 ; timer[1]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_1 ; timer[0]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_0 ; timer[0]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; timer[0]          ; timer[0]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; state.state_bit_2 ; timer[0]          ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; Q0                ; VALID_INPUT       ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; Q1                ; VALID_INPUT       ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; Q0                ; Q1                ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[1]        ; unlock~reg0       ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[2]        ; unlock~reg0       ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
+; N/A   ; 100.00 MHz ( period = 10.000 ns ) ; sec_aux[0]        ; unlock~reg0       ; clk        ; clk      ; None                        ; None                      ; 6.000 ns                ;
++-------+-----------------------------------+-------------------+-------------------+------------+----------+-----------------------------+---------------------------+-------------------------+
 
 
-+-------------------------------------------------------------------------------------------+
-; tsu                                                                                       ;
-+-------+--------------+------------+---------+----------------------------------+----------+
-; Slack ; Required tsu ; Actual tsu ; From    ; To                               ; To Clock ;
-+-------+--------------+------------+---------+----------------------------------+----------+
-; N/A   ; None         ; 7.000 ns   ; UP_DOWN ; lpm_counter:Cuenta_rtl_0|dffs[1] ; CLK      ;
-; N/A   ; None         ; 7.000 ns   ; UP_DOWN ; lpm_counter:Cuenta_rtl_0|dffs[2] ; CLK      ;
-; N/A   ; None         ; 7.000 ns   ; UP_DOWN ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK      ;
-; N/A   ; None         ; 7.000 ns   ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[0] ; CLK      ;
-; N/A   ; None         ; 7.000 ns   ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[1] ; CLK      ;
-; N/A   ; None         ; 7.000 ns   ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[2] ; CLK      ;
-; N/A   ; None         ; 7.000 ns   ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK      ;
-+-------+--------------+------------+---------+----------------------------------+----------+
++----------------------------------------------------------------------------+
+; tsu                                                                        ;
++-------+--------------+------------+---------+-------------------+----------+
+; Slack ; Required tsu ; Actual tsu ; From    ; To                ; To Clock ;
++-------+--------------+------------+---------+-------------------+----------+
+; N/A   ; None         ; 7.800 ns   ; data[2] ; state.state_bit_1 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[2] ; state.state_bit_0 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[2] ; state.state_bit_2 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[1] ; state.state_bit_1 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[1] ; state.state_bit_0 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[1] ; state.state_bit_2 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[3] ; state.state_bit_1 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[3] ; state.state_bit_0 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[3] ; state.state_bit_2 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[0] ; state.state_bit_1 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[0] ; state.state_bit_0 ; clk      ;
+; N/A   ; None         ; 7.800 ns   ; data[0] ; state.state_bit_2 ; clk      ;
+; N/A   ; None         ; 7.000 ns   ; reset   ; Q0                ; clk      ;
+; N/A   ; None         ; 7.000 ns   ; reset   ; Q1                ; clk      ;
+; N/A   ; None         ; 7.000 ns   ; reset   ; unlock~reg0       ; clk      ;
+; N/A   ; None         ; 7.000 ns   ; valid   ; Q0                ; clk      ;
++-------+--------------+------------+---------+-------------------+----------+
 
 
-+-----------------------------------------------------------------------------------------------+
-; tco                                                                                           ;
-+-------+--------------+------------+----------------------------------+-----------+------------+
-; Slack ; Required tco ; Actual tco ; From                             ; To        ; From Clock ;
-+-------+--------------+------------+----------------------------------+-----------+------------+
-; N/A   ; None         ; 13.000 ns  ; lpm_counter:Cuenta_rtl_0|dffs[0] ; Carry_out ; CLK        ;
-; N/A   ; None         ; 13.000 ns  ; lpm_counter:Cuenta_rtl_0|dffs[1] ; Carry_out ; CLK        ;
-; N/A   ; None         ; 13.000 ns  ; lpm_counter:Cuenta_rtl_0|dffs[2] ; Carry_out ; CLK        ;
-; N/A   ; None         ; 13.000 ns  ; lpm_counter:Cuenta_rtl_0|dffs[3] ; Carry_out ; CLK        ;
-; N/A   ; None         ; 5.000 ns   ; lpm_counter:Cuenta_rtl_0|dffs[3] ; Q[3]      ; CLK        ;
-; N/A   ; None         ; 5.000 ns   ; lpm_counter:Cuenta_rtl_0|dffs[2] ; Q[2]      ; CLK        ;
-; N/A   ; None         ; 5.000 ns   ; lpm_counter:Cuenta_rtl_0|dffs[1] ; Q[1]      ; CLK        ;
-; N/A   ; None         ; 5.000 ns   ; lpm_counter:Cuenta_rtl_0|dffs[0] ; Q[0]      ; CLK        ;
-+-------+--------------+------------+----------------------------------+-----------+------------+
++----------------------------------------------------------------------------+
+; tco                                                                        ;
++-------+--------------+------------+-------------+-------------+------------+
+; Slack ; Required tco ; Actual tco ; From        ; To          ; From Clock ;
++-------+--------------+------------+-------------+-------------+------------+
+; N/A   ; None         ; 5.000 ns   ; unlock~reg0 ; unlock      ; clk        ;
+; N/A   ; None         ; 5.000 ns   ; sec_aux[2]  ; sequence[2] ; clk        ;
+; N/A   ; None         ; 5.000 ns   ; sec_aux[0]  ; sequence[0] ; clk        ;
+; N/A   ; None         ; 5.000 ns   ; sec_aux[1]  ; sequence[1] ; clk        ;
++-------+--------------+------------+-------------+-------------+------------+
 
 
-+-------------------------------------------------------------------+
-; tpd                                                               ;
-+-------+-------------------+-----------------+---------+-----------+
-; Slack ; Required P2P Time ; Actual P2P Time ; From    ; To        ;
-+-------+-------------------+-----------------+---------+-----------+
-; N/A   ; None              ; 10.000 ns       ; UP_DOWN ; Carry_out ;
-+-------+-------------------+-----------------+---------+-----------+
-
-
-+-------------------------------------------------------------------------------------------------+
-; th                                                                                              ;
-+---------------+-------------+-----------+---------+----------------------------------+----------+
-; Minimum Slack ; Required th ; Actual th ; From    ; To                               ; To Clock ;
-+---------------+-------------+-----------+---------+----------------------------------+----------+
-; N/A           ; None        ; -2.000 ns ; UP_DOWN ; lpm_counter:Cuenta_rtl_0|dffs[1] ; CLK      ;
-; N/A           ; None        ; -2.000 ns ; UP_DOWN ; lpm_counter:Cuenta_rtl_0|dffs[2] ; CLK      ;
-; N/A           ; None        ; -2.000 ns ; UP_DOWN ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK      ;
-; N/A           ; None        ; -2.000 ns ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[0] ; CLK      ;
-; N/A           ; None        ; -2.000 ns ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[1] ; CLK      ;
-; N/A           ; None        ; -2.000 ns ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[2] ; CLK      ;
-; N/A           ; None        ; -2.000 ns ; CE      ; lpm_counter:Cuenta_rtl_0|dffs[3] ; CLK      ;
-+---------------+-------------+-----------+---------+----------------------------------+----------+
++----------------------------------------------------------------------------------+
+; th                                                                               ;
++---------------+-------------+-----------+---------+-------------------+----------+
+; Minimum Slack ; Required th ; Actual th ; From    ; To                ; To Clock ;
++---------------+-------------+-----------+---------+-------------------+----------+
+; N/A           ; None        ; -2.000 ns ; data[2] ; state.state_bit_1 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[2] ; state.state_bit_0 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[2] ; state.state_bit_2 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[1] ; state.state_bit_1 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[1] ; state.state_bit_0 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[1] ; state.state_bit_2 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[3] ; state.state_bit_1 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[3] ; state.state_bit_0 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[3] ; state.state_bit_2 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[0] ; state.state_bit_1 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[0] ; state.state_bit_0 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; data[0] ; state.state_bit_2 ; clk      ;
+; N/A           ; None        ; -2.000 ns ; reset   ; Q0                ; clk      ;
+; N/A           ; None        ; -2.000 ns ; reset   ; Q1                ; clk      ;
+; N/A           ; None        ; -2.000 ns ; reset   ; unlock~reg0       ; clk      ;
+; N/A           ; None        ; -2.000 ns ; valid   ; Q0                ; clk      ;
++---------------+-------------+-----------+---------+-------------------+----------+
 
 
 +--------------------------+
@@ -186,72 +239,67 @@ Parallel compilation was disabled, but you have multiple processors available. E
 Info: *******************************************************************
 Info: Running Quartus II Classic Timing Analyzer
     Info: Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
-    Info: Processing started: Thu May 13 12:33:03 2021
+    Info: Processing started: Thu May 13 18:21:48 2021
 Info: Command: quartus_tan --read_settings_files=off --write_settings_files=off P4_1 -c P4_1
 Info: Started post-fitting delay annotation
 Info: Delay annotation completed successfully
 Warning: Timing Analysis does not support the analysis of latches as synchronous elements for the currently selected device family
 Warning: Found pins functioning as undefined clocks and/or memory enables
-    Info: Assuming node "CLK" is an undefined clock
-Info: Clock "CLK" has Internal fmax of 100.0 MHz between source register "lpm_counter:Cuenta_rtl_0|dffs[0]" and destination register "lpm_counter:Cuenta_rtl_0|dffs[0]" (period= 10.0 ns)
-    Info: + Longest register to register delay is 6.000 ns
-        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LC1; Fanout = 10; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[0]'
-        Info: 2: + IC(0.000 ns) + CELL(6.000 ns) = 6.000 ns; Loc. = LC1; Fanout = 10; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[0]'
-        Info: Total cell delay = 6.000 ns ( 100.00 % )
+    Info: Assuming node "clk" is an undefined clock
+Info: Clock "clk" has Internal fmax of 92.59 MHz between source register "state.state_bit_1" and destination register "state.state_bit_1" (period= 10.8 ns)
+    Info: + Longest register to register delay is 6.800 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
+        Info: 2: + IC(1.000 ns) + CELL(5.000 ns) = 6.000 ns; Loc. = LC6; Fanout = 1; COMB Node = 'state.state_bit_1~25'
+        Info: 3: + IC(0.000 ns) + CELL(0.800 ns) = 6.800 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
+        Info: Total cell delay = 5.800 ns ( 85.29 % )
+        Info: Total interconnect delay = 1.000 ns ( 14.71 % )
     Info: - Smallest clock skew is 0.000 ns
-        Info: + Shortest clock path from clock "CLK" to destination register is 1.500 ns
-            Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 4; CLK Node = 'CLK'
-            Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC1; Fanout = 10; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[0]'
+        Info: + Shortest clock path from clock "clk" to destination register is 1.500 ns
+            Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 15; CLK Node = 'clk'
+            Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
             Info: Total cell delay = 1.500 ns ( 100.00 % )
-        Info: - Longest clock path from clock "CLK" to source register is 1.500 ns
-            Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 4; CLK Node = 'CLK'
-            Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC1; Fanout = 10; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[0]'
+        Info: - Longest clock path from clock "clk" to source register is 1.500 ns
+            Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 15; CLK Node = 'clk'
+            Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
             Info: Total cell delay = 1.500 ns ( 100.00 % )
     Info: + Micro clock to output delay of source is 2.000 ns
     Info: + Micro setup delay of destination is 2.000 ns
-Info: tsu for register "lpm_counter:Cuenta_rtl_0|dffs[1]" (data pin = "UP_DOWN", clock pin = "CLK") is 7.000 ns
-    Info: + Longest pin to register delay is 6.500 ns
-        Info: 1: + IC(0.000 ns) + CELL(0.500 ns) = 0.500 ns; Loc. = PIN_40; Fanout = 8; PIN Node = 'UP_DOWN'
-        Info: 2: + IC(1.000 ns) + CELL(5.000 ns) = 6.500 ns; Loc. = LC3; Fanout = 8; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[1]'
-        Info: Total cell delay = 5.500 ns ( 84.62 % )
-        Info: Total interconnect delay = 1.000 ns ( 15.38 % )
+Info: tsu for register "state.state_bit_1" (data pin = "data[2]", clock pin = "clk") is 7.800 ns
+    Info: + Longest pin to register delay is 7.300 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.500 ns) = 0.500 ns; Loc. = PIN_40; Fanout = 10; PIN Node = 'data[2]'
+        Info: 2: + IC(1.000 ns) + CELL(5.000 ns) = 6.500 ns; Loc. = LC6; Fanout = 1; COMB Node = 'state.state_bit_1~25'
+        Info: 3: + IC(0.000 ns) + CELL(0.800 ns) = 7.300 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
+        Info: Total cell delay = 6.300 ns ( 86.30 % )
+        Info: Total interconnect delay = 1.000 ns ( 13.70 % )
     Info: + Micro setup delay of destination is 2.000 ns
-    Info: - Shortest clock path from clock "CLK" to destination register is 1.500 ns
-        Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 4; CLK Node = 'CLK'
-        Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC3; Fanout = 8; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[1]'
+    Info: - Shortest clock path from clock "clk" to destination register is 1.500 ns
+        Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 15; CLK Node = 'clk'
+        Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
         Info: Total cell delay = 1.500 ns ( 100.00 % )
-Info: tco from clock "CLK" to destination pin "Carry_out" through register "lpm_counter:Cuenta_rtl_0|dffs[0]" is 13.000 ns
-    Info: + Longest clock path from clock "CLK" to source register is 1.500 ns
-        Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 4; CLK Node = 'CLK'
-        Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC1; Fanout = 10; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[0]'
+Info: tco from clock "clk" to destination pin "unlock" through register "unlock~reg0" is 5.000 ns
+    Info: + Longest clock path from clock "clk" to source register is 1.500 ns
+        Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 15; CLK Node = 'clk'
+        Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC14; Fanout = 1; REG Node = 'unlock~reg0'
         Info: Total cell delay = 1.500 ns ( 100.00 % )
     Info: + Micro clock to output delay of source is 2.000 ns
-    Info: + Longest register to pin delay is 9.500 ns
-        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LC1; Fanout = 10; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[0]'
-        Info: 2: + IC(1.000 ns) + CELL(7.000 ns) = 8.000 ns; Loc. = LC11; Fanout = 1; COMB Node = 'Carry_out~9'
-        Info: 3: + IC(0.000 ns) + CELL(1.500 ns) = 9.500 ns; Loc. = PIN_6; Fanout = 0; PIN Node = 'Carry_out'
-        Info: Total cell delay = 8.500 ns ( 89.47 % )
-        Info: Total interconnect delay = 1.000 ns ( 10.53 % )
-Info: Longest tpd from source pin "UP_DOWN" to destination pin "Carry_out" is 10.000 ns
-    Info: 1: + IC(0.000 ns) + CELL(0.500 ns) = 0.500 ns; Loc. = PIN_40; Fanout = 8; PIN Node = 'UP_DOWN'
-    Info: 2: + IC(1.000 ns) + CELL(7.000 ns) = 8.500 ns; Loc. = LC11; Fanout = 1; COMB Node = 'Carry_out~9'
-    Info: 3: + IC(0.000 ns) + CELL(1.500 ns) = 10.000 ns; Loc. = PIN_6; Fanout = 0; PIN Node = 'Carry_out'
-    Info: Total cell delay = 9.000 ns ( 90.00 % )
-    Info: Total interconnect delay = 1.000 ns ( 10.00 % )
-Info: th for register "lpm_counter:Cuenta_rtl_0|dffs[1]" (data pin = "UP_DOWN", clock pin = "CLK") is -2.000 ns
-    Info: + Longest clock path from clock "CLK" to destination register is 1.500 ns
-        Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 4; CLK Node = 'CLK'
-        Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC3; Fanout = 8; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[1]'
+    Info: + Longest register to pin delay is 1.500 ns
+        Info: 1: + IC(0.000 ns) + CELL(0.000 ns) = 0.000 ns; Loc. = LC14; Fanout = 1; REG Node = 'unlock~reg0'
+        Info: 2: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_5; Fanout = 0; PIN Node = 'unlock'
+        Info: Total cell delay = 1.500 ns ( 100.00 % )
+Info: th for register "state.state_bit_1" (data pin = "data[2]", clock pin = "clk") is -2.000 ns
+    Info: + Longest clock path from clock "clk" to destination register is 1.500 ns
+        Info: 1: + IC(0.000 ns) + CELL(1.500 ns) = 1.500 ns; Loc. = PIN_43; Fanout = 15; CLK Node = 'clk'
+        Info: 2: + IC(0.000 ns) + CELL(0.000 ns) = 1.500 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
         Info: Total cell delay = 1.500 ns ( 100.00 % )
     Info: + Micro hold delay of destination is 3.000 ns
     Info: - Shortest pin to register delay is 6.500 ns
-        Info: 1: + IC(0.000 ns) + CELL(0.500 ns) = 0.500 ns; Loc. = PIN_40; Fanout = 8; PIN Node = 'UP_DOWN'
-        Info: 2: + IC(1.000 ns) + CELL(5.000 ns) = 6.500 ns; Loc. = LC3; Fanout = 8; REG Node = 'lpm_counter:Cuenta_rtl_0|dffs[1]'
+        Info: 1: + IC(0.000 ns) + CELL(0.500 ns) = 0.500 ns; Loc. = PIN_40; Fanout = 10; PIN Node = 'data[2]'
+        Info: 2: + IC(1.000 ns) + CELL(5.000 ns) = 6.500 ns; Loc. = LC7; Fanout = 21; REG Node = 'state.state_bit_1'
         Info: Total cell delay = 5.500 ns ( 84.62 % )
         Info: Total interconnect delay = 1.000 ns ( 15.38 % )
 Info: Quartus II Classic Timing Analyzer was successful. 0 errors, 2 warnings
-    Info: Peak virtual memory: 167 megabytes
-    Info: Processing ended: Thu May 13 12:33:03 2021
+    Info: Peak virtual memory: 166 megabytes
+    Info: Processing ended: Thu May 13 18:21:48 2021
     Info: Elapsed time: 00:00:00
     Info: Total CPU time (on all processors): 00:00:00
 

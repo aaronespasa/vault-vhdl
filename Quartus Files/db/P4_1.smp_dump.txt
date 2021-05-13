@@ -1,0 +1,10 @@
+
+State Machine - |P4_1|state
+Name state.state_bit_2 state.state_bit_1 state.state_bit_0 
+state.s0 0 0 0 
+state.v1 0 1 0 
+state.v2 1 0 1 
+state.w1 0 0 1 
+state.w2 0 1 1 
+state.waiting 1 0 0 
+state.unlocked 1 1 0 

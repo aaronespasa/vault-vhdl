@@ -18,9 +18,9 @@ ENTITY P4_1 IS
 END P4_1;
 ARCHITECTURE practica of P4_1 IS
 	TYPE state_t IS (s0, v1, v2, w1, w2, waiting, unlocked);
-	SIGNAL state, next_state IS: 
+	SIGNAL state, next_state: state_t; 
 	SIGNAL VALID_INPUT, Q0, Q1: STD_LOGIC;
-	SIGNAL timer: INTEGER IN RANGE 0 TO 9;
+	SIGNAL timer: INTEGER RANGE 0 TO 9;
 	SIGNAL EoC: STD_LOGIC;
 	SIGNAL Enable_timer: STD_LOGIC;
 	SIGNAL Enable_sec: STD_LOGIC;
@@ -38,32 +38,18 @@ BEGIN
 		END IF;
 	END PROCESS;
 
-	-- timer for 10 clock cycles
-	PROCESS(clk, reset)
-	BEGIN
-		IF reset = '1' THEN			--High profile reset
-			Enable_timer <= '0';
-		ELSIF CLK'EVENT AND CLK='1' THEN
-			-- It always goes up
-			IF timer = 9 THEN
-				timer <= 0;
-				EoC <= '1';
-			ELSE
-				timer <= timer + 1;
-				EoC <= '0';
-		END IF;
-	END PROCESS;
-
+	
 	--Moore Machine (Based on state transition graph)
 	PROCESS(clk, reset)
 	BEGIN
-	IF reset = '1' THEN
-		state <= s0;
-	ELSIF CLK'EVENT AND CLK='1' THEN
-		state <= next_state;
+		IF reset = '1' THEN
+			state <= s0;
+		ELSIF CLK'EVENT AND CLK='1' THEN
+			state <= next_state;
+		END IF;
 	END PROCESS;
 
-	PROCESS(state, data, VALID_INPUT, EoC, lock)
+	PROCESS(state, data, VALID_INPUT, EoC)
 	BEGIN
 	CASE STATE IS
 		WHEN s0 =>
@@ -149,24 +135,43 @@ BEGIN
 		END CASE;
 	END PROCESS;
 
+	
+	-- timer for 10 clock cycles
+	PROCESS(clk)
+	BEGIN
+		IF CLK'EVENT AND CLK='1' THEN
+			IF Enable_timer = '1' THEN
+				-- It always goes up
+				IF timer = 9 THEN
+					timer <= 0;
+					EoC <= '1';
+				ELSE
+					timer <= timer + 1;
+					EoC <= '0';
+				END IF;
+			END IF;
+		END IF;
+	END PROCESS;
 
+	
 	--Shift register
 	PROCESS(clk, reset)
 	BEGIN
 		IF reset = '1' THEN
 			sec_aux <= "000";
 		ELSIF CLK'EVENT AND CLK='1' THEN
-			IF sec_aux = '111' THEN
+			IF sec_aux = "111" THEN
 				unlock <= '1';
 			ELSE
-				unlock = '0';
+				unlock <='0';
 				IF Enable_sec = '1' THEN
-					sec_aux = Enable_sec & sec_aux(2 DOWNTO 1);
+					sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);
 				ELSE
 					--Append 0 to the sequence
-					sec_aux = Enable_sec & sec_aux(2 DOWNTO 1);	
+					sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);	
 				END IF;
 			END IF;
+		END IF;	
 	END PROCESS;
 	sequence <= sec_aux;		
 END practica;
