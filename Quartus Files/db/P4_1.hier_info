@@ -1,0 +1,22 @@
+|P4_1
+CLK => Cuenta[0].CLK
+CLK => Cuenta[1].CLK
+CLK => Cuenta[2].CLK
+CLK => Cuenta[3].CLK
+CE => Cuenta.OUTPUTSELECT
+CE => Cuenta.OUTPUTSELECT
+CE => Cuenta.OUTPUTSELECT
+CE => Cuenta.OUTPUTSELECT
+RESET => Cuenta[0].ACLR
+RESET => Cuenta[1].ACLR
+RESET => Cuenta[2].ACLR
+RESET => Cuenta[3].ACLR
+UP_DOWN => Carry_out.IN0
+UP_DOWN => Carry_out.IN1
+Carry_out <= Carry_out.DB_MAX_OUTPUT_PORT_TYPE
+Q[0] <= Cuenta[0].DB_MAX_OUTPUT_PORT_TYPE
+Q[1] <= Cuenta[1].DB_MAX_OUTPUT_PORT_TYPE
+Q[2] <= Cuenta[2].DB_MAX_OUTPUT_PORT_TYPE
+Q[3] <= Cuenta[3].DB_MAX_OUTPUT_PORT_TYPE
+
+
