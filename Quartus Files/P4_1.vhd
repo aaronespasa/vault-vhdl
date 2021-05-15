@@ -154,24 +154,47 @@ BEGIN
 	END PROCESS;
 
 	
+	-- --Shift register
+	-- PROCESS(clk, reset)
+	-- BEGIN
+	-- 	IF reset = '1' THEN
+	-- 		sec_aux <= "000";
+	-- 	ELSIF CLK'EVENT AND CLK='1' THEN
+	-- 		IF sec_aux = "111" THEN
+	-- 			unlock <= '1';
+	-- 		ELSE
+	-- 			unlock <='0';
+	-- 			IF Enable_sec = '1' THEN
+	-- 				sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);
+	-- 			ELSE
+	-- 				--Append 0 to the sequence
+	-- 				sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);	
+	-- 			END IF;
+	-- 		END IF;
+	-- 	END IF;	
+	-- END PROCESS;
+	-- sequence <= sec_aux;		
+
 	--Shift register
 	PROCESS(clk, reset)
 	BEGIN
 		IF reset = '1' THEN
 			sec_aux <= "000";
+			unlock <= '0';
 		ELSIF CLK'EVENT AND CLK='1' THEN
-			IF sec_aux = "111" THEN
-				unlock <= '1';
-			ELSE
-				unlock <='0';
-				IF Enable_sec = '1' THEN
-					sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);
+			IF Enable_sec = '1' THEN
+				sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);
+				IF sec_aux = "111" THEN
+					unlock <= '1';
 				ELSE
-					--Append 0 to the sequence
-					sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);	
+					unlock <= '0';
 				END IF;
+			ELSE
+				--Append 0 to the sequence
+				sec_aux <= Enable_sec & sec_aux(2 DOWNTO 1);
+				unlock <= '0';	
 			END IF;
 		END IF;	
 	END PROCESS;
-	sequence <= sec_aux;		
+	sequence <= sec_aux;
 END practica;
